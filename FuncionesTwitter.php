@@ -2,8 +2,8 @@
 
 function Twitter_FormatearUser($usuario){
 
-    # @elgranisc      ->  @elgranisc
-    # elgranisc       ->  @elgranisc
+    # @XXXX      ->  @XXXX
+    # XXXX       ->  @XXXX
     # user@email.com  ->
 
     $retorno = "";
