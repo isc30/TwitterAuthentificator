@@ -1,6 +1,6 @@
 <?php
 
-function Twitter_FormatearUser($usuario){
+function Twitter_FormatearUser($usuario) {
 
     # @XXXX      ->  @XXXX
     # XXXX       ->  @XXXX
@@ -18,9 +18,10 @@ function Twitter_FormatearUser($usuario){
             $retorno = "@$usuario";
 
     return $retorno;
+    
 }
 
-function Twitter_ComprobarLogin($usuario, $contrasena){
+function Twitter_ComprobarLogin($usuario, $contrasena) {
 
 	# Sacamos el Authenticity Token
 	$ch = curl_init();
@@ -41,14 +42,12 @@ function Twitter_ComprobarLogin($usuario, $contrasena){
 	$password = urlencode($contrasena);
 	
 	# Peticion POST
-	$campos = array(
-			'session[username_or_email]' => $username,
+	$campos = array('session[username_or_email]' => $username,
 			'session[password]' => $password,
 			'return_to_ssl' => "true",
 			'scribe_log' => "",
 			'redirect_after_login' => "/",
-			'authenticity_token' => $authenticity_token
-			);
+			'authenticity_token' => $authenticity_token);
 	
 	foreach($campos as $key=>$value) { $campos_string .= $key.'='.$value.'&'; }
 	rtrim($campos_string, '&');
@@ -72,9 +71,10 @@ function Twitter_ComprobarLogin($usuario, $contrasena){
 	# El login es perfecto
 	if($enlace == "https://twitter.com/") return true;
 	return false;	
+	
 }
 
-function Twitter_SacarUser($usuario, $contrasena){
+function Twitter_SacarUser($usuario, $contrasena) {
 
 	# Sacamos el Authenticity Token
 	$ch = curl_init();
@@ -95,14 +95,12 @@ function Twitter_SacarUser($usuario, $contrasena){
 	$password = urlencode($contrasena);
 	
 	# Peticion POST
-	$campos = array(
-			'session[username_or_email]' => $username,
+	$campos = array('session[username_or_email]' => $username,
 			'session[password]' => $password,
 			'return_to_ssl' => "true",
 			'scribe_log' => "",
 			'redirect_after_login' => "/",
-			'authenticity_token' => $authenticity_token
-			);
+			'authenticity_token' => $authenticity_token);
 	
 	foreach($campos as $key=>$value) { $campos_string .= $key.'='.$value.'&'; }
 	rtrim($campos_string, '&');
@@ -122,7 +120,7 @@ function Twitter_SacarUser($usuario, $contrasena){
 	preg_match($busqueda, $respuesta, $href);
 	$enlace = $href[1];
 	
-	if($enlace == "https://twitter.com/"){
+	if($enlace == "https://twitter.com/") {
 
 		# El login es perfecto
 		# Capturamos la web principal de Twitter
@@ -141,13 +139,15 @@ function Twitter_SacarUser($usuario, $contrasena){
 		$busqueda = '/<span class="screen-name hidden" dir="ltr">(.*)<\/span>/';
 		preg_match($busqueda, $respuesta, $nombre);
 		return $nombre[1];
+		
 	}
 
 	curl_close($ch);
-	return $user;	
+	return $user;
+	
 }
 
-function Twitter_SacarEmail($usuario, $contrasena){
+function Twitter_SacarEmail($usuario, $contrasena) {
     
     # Comprobamos si no es un e-mail
     if(filter_var($usuario, FILTER_VALIDATE_EMAIL)) return $usuario;
@@ -171,14 +171,12 @@ function Twitter_SacarEmail($usuario, $contrasena){
 	$password = urlencode($contrasena);
 	
 	# Peticion POST
-	$campos = array(
-			'session[username_or_email]' => $username,
+	$campos = array('session[username_or_email]' => $username,
 			'session[password]' => $password,
 			'return_to_ssl' => "true",
 			'scribe_log' => "",
 			'redirect_after_login' => "/",
-			'authenticity_token' => $authenticity_token
-			);
+			'authenticity_token' => $authenticity_token);
 	
 	foreach($campos as $key=>$value) { $campos_string .= $key.'='.$value.'&'; }
 	rtrim($campos_string, '&');
@@ -198,7 +196,7 @@ function Twitter_SacarEmail($usuario, $contrasena){
 	preg_match($busqueda, $respuesta, $href);
 	$enlace = $href[1];
 	
-	if($enlace == "https://twitter.com/"){
+	if($enlace == "https://twitter.com/") {
 
 		# El login es perfecto
 		# Capturamos la web 'https://twitter.com/settings/account'
@@ -218,13 +216,15 @@ function Twitter_SacarEmail($usuario, $contrasena){
 		$busqueda = '/name="user\[email\]" type="text" value="([^"]*)">/';
 		preg_match($busqueda, $respuesta, $email);
 		return $email[1];
+		
 	}
 
 	curl_close($ch);
-	return $usuario;	
+	return $usuario;
+	
 }
 
-function Twitter_TwittearMensaje($usuario, $contrasena, $texto){
+function Twitter_TwittearMensaje($usuario, $contrasena, $texto) {
 
 	# Sacamos el Authenticity Token
 	$ch = curl_init();
@@ -245,12 +245,10 @@ function Twitter_TwittearMensaje($usuario, $contrasena, $texto){
 	$password = urlencode($contrasena);
 	
 	# Peticion POST
-	$campos = array(
-			'session[username_or_email]' => $username,
+	$campos = array('session[username_or_email]' => $username,
 			'session[password]' => $password,
 			'status' => $texto,
-			'authenticity_token' => $authenticity_token
-			);
+			'authenticity_token' => $authenticity_token);
 	
 	foreach($campos as $key=>$value) { $campos_string .= $key.'='.$value.'&'; }
 	rtrim($campos_string, '&');
@@ -273,7 +271,8 @@ function Twitter_TwittearMensaje($usuario, $contrasena, $texto){
 	
 	# El login es perfecto
 	if(strpos($enlace,'https://twitter.com/intent/tweet/complete') !== false) return true;
-	return false;	
+	return false;
+	
 }
 
 ?>
